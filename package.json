@@ -1,10 +1,13 @@
 {
   "name": "react-material-dashboard",
-  "author": "DeviasIO",
+  "homepage": "https://0828274541.github.io",
+  "author": "CUONGNM",
   "licence": "MIT",
   "version": "1.0.0",
   "private": false,
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

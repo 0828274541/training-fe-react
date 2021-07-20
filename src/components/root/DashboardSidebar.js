@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -19,7 +20,8 @@ import { user, items } from './MenuSidebar';
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
-
+  const { role } = useSelector((state) => state.auth);
+  user.name = `${role} : CuongNM`;
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();

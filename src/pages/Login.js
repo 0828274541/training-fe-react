@@ -27,6 +27,9 @@ const Login = () => {
       };
       dispatch({ type: 'SET_LOGIN', payload: data });
       navigate('/admin', { replace: true });
+    } else {
+      // eslint-disable-next-line no-alert
+      alert('sai username or password');
     }
   };
   return (
@@ -62,7 +65,6 @@ const Login = () => {
               handleBlur,
               handleChange,
               handleSubmit,
-              isSubmitting,
               touched,
               values
             }) => (
@@ -114,7 +116,6 @@ const Login = () => {
                 <Box sx={{ py: 2 }}>
                   <Button
                     color="primary"
-                    disabled={isSubmitting}
                     fullWidth
                     size="large"
                     type="submit"

@@ -17,7 +17,7 @@ import {
 } from 'react-feather';
 
 export const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
+  avatar: '/static/images/avatars/1aaaaa.png',
   jobTitle: 'Senior Developer',
   name: 'Katarina Smith'
 };
