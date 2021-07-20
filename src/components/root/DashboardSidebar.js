@@ -79,7 +79,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             </span>
           </Button>
         </ListItem>
-        <Collapse in={arrIndex.includes(index)} number="2000" unmountOnExit>
+        <Collapse in={arrIndex.includes(index)} timeout="auto" unmountOnExit>
           <Box sx={{ pl: 4 }}>
             <List>
               {itemChildren.map((item) => (

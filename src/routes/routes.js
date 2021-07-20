@@ -24,7 +24,6 @@ import BookAdd from 'src/pages/books/BookAdd';
 const routes = (isLoggedIn) => [
   {
     path: 'admin',
-    role: isLoggedIn,
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
       { path: '', element: <Dashboard /> },

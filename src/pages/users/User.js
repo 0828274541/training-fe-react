@@ -31,11 +31,10 @@ import USERLIST from '../../__mocks__/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
+  { id: 'username', label: 'Username', alignRight: false },
+  { id: 'firstname', label: 'Firstname', alignRight: false },
+  { id: 'lastname', label: 'Lastname', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
 
@@ -74,7 +73,7 @@ export default function User() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('username');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -86,18 +85,18 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = USERLIST.map((n) => n.username);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, username) => {
+    const selectedIndex = selected.indexOf(username);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, username);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -169,9 +168,9 @@ export default function User() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const {
-                        id, name, role, status, company, isVerified
+                        id, username, role, firstname, lastname
                       } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const isItemSelected = selected.indexOf(username) !== -1;
 
                       return (
                         <TableRow
@@ -185,33 +184,32 @@ export default function User() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              onChange={(event) => handleClick(event, username)}
                             />
                           </TableCell>
                           <TableCell
                             component="th"
                             scope="row"
                             padding="none"
-                            width="20%"
+                            width="25%"
                           >
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Typography variant="subtitle2" noWrap>
-                                {name}
+                                {username}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left" width="20%">{company}</TableCell>
-                          <TableCell align="left" width="20%">{role}</TableCell>
-                          <TableCell align="left" width="15%">{isVerified ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left" width="25%">{firstname}</TableCell>
+                          <TableCell align="left" width="25%">{lastname}</TableCell>
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              // eslint-disable-next-line no-nested-ternary
+                              color={role === 'admin' ? 'success' : role === 'contributor' ? 'warning' : 'info'}
                             >
-                              {sentenceCase(status)}
+                              {sentenceCase(role)}
                             </Label>
                           </TableCell>
-
                           <TableCell align="right">
                             <UserMoreMenu />
                           </TableCell>
