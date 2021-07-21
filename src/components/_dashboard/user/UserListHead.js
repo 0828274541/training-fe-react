@@ -19,7 +19,7 @@ export default function UserListHead({
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
+  const direction = order === '' ? 'asc' : 'desc';
   return (
     <TableHead>
       <TableRow>
@@ -34,12 +34,12 @@ export default function UserListHead({
           <TableCell
             key={headCell.id}
             align={headCell.alignRight ? 'right' : 'left'}
-            sortDirection={orderBy === headCell.id ? order : false}
+            sortDirection={orderBy === headCell.id ? direction : false}
           >
             <TableSortLabel
               hideSortIcon
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              active={orderBy === headCell.id && headCell.id !== 'role'}
+              direction={orderBy === headCell.id ? direction : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
@@ -57,7 +57,7 @@ export default function UserListHead({
 }
 
 UserListHead.propTypes = {
-  order: PropTypes.oneOf(['asc', 'desc']),
+  order: PropTypes.oneOf(['', '-']),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
   headLabel: PropTypes.array,

@@ -4,19 +4,12 @@
     "es6": true,
     "browser": true
   },
-  "extends": [
-    "airbnb"
-  ],
+  "extends": ["airbnb"],
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": [
-          "."
-        ],
-        "extensions": [
-          ".js",
-          ".jsx"
-        ]
+        "paths": ["."],
+        "extensions": [".js", ".jsx"]
       }
     }
   },
@@ -31,7 +24,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
-    "linebreak-style": ["error", "windows" ],
+    "linebreak-style": ["error", "windows"],
     "import/prefer-default-export": "off"
   }
 }

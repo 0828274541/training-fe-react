@@ -4,13 +4,13 @@ import storage from 'redux-persist/lib/storage';
 
 // reducer import
 import authReducer from './authRecucer';
-import adminReducer from './adminReducer';
+import userReducer from './userReducer';
 
 // -----------------------|| COMBINE REDUCER ||-----------------------
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'admin']
+  whitelist: ['auth']
 };
 
 //   const authPersistConfig = {
@@ -20,7 +20,7 @@ const rootPersistConfig = {
 //   }
 const rootReducer = combineReducers({
   auth: authReducer,
-  admin: adminReducer
+  user: userReducer
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);
