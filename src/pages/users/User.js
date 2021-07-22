@@ -25,6 +25,7 @@ import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_dashboard/user';
+
 //
 import { usersApi } from '../../apis/index';
 
@@ -40,15 +41,14 @@ const TABLE_HEAD = [
 
 export default function User() {
   const [page, setPage] = useState(1);
-  const [order, setOrder] = useState('');
+  const [order, setOrder] = useState('-');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('username');
+  const [orderBy, setOrderBy] = useState('_id');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [totalPage, setTotalPage] = useState(0);
   const [users, setUsers] = useState([]);
   const [keyWord, setKeyword] = useState('');
-  console.log(keyWord);
   // eslint-disable-next-line func-names
   async function getUser() {
     const result = await usersApi.paging({
@@ -71,6 +71,27 @@ export default function User() {
         setUsers([]);
         setTotalPage(totalDocs);
       }
+    }
+  }
+  async function handleListDelete() {
+    const result = await usersApi.deleteUser({
+      userIds: selected,
+    });
+    if (result.data.code === 200) {
+      // delelte all success
+      getUser();
+      setSelected([]);
+    }
+  }
+
+  async function handleItemDelete(id) {
+    const result = await usersApi.deleteUser({
+      userIds: [`${id}`],
+    });
+    if (result.data.code === 200) {
+      // delelte item success
+      getUser();
+      setSelected([]);
     }
   }
 
@@ -108,18 +129,24 @@ export default function User() {
       return;
     }
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.username);
+      /* eslint no-underscore-dangle: ["error", { "allowAfterSuper": true }] */
+      const newSelecteds = users.map((row) => {
+        const {
+          _id: id,
+        } = row;
+        return id;
+      });
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
   // select row
-  const handleClick = (event, username) => {
-    const selectedIndex = selected.indexOf(username);
+  const handleClick = (event, _id) => {
+    const selectedIndex = selected.indexOf(_id);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, username);
+      newSelected = newSelected.concat(selected, _id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -144,84 +171,85 @@ export default function User() {
   };
 
   return (
-    <Page title="User | Minimal-UI">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            User
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/admin/user/add"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New User
-          </Button>
-        </Stack>
+    <>
+      <Page title="User | Minimal-UI">
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              User
+            </Typography>
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to="/admin/user/add"
+              startIcon={<Icon icon={plusFill} />}
+            >
+              New User
+            </Button>
+          </Stack>
 
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterName={filterName}
+              onFilterName={handleFilterByName}
+              onDeleteList={handleListDelete}
+            />
 
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800, minHeight: 440 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={users.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {users
-                    .map((row) => {
-                      const {
-                        id, username, role, firstName, lastName
-                      } = row;
-                      const isItemSelected = selected.indexOf(username) !== -1;
-
-                      return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, username)}
-                            />
-                          </TableCell>
-                          <TableCell align="left" width="25%">{username}</TableCell>
-                          <TableCell align="left" width="25%">{firstName}</TableCell>
-                          <TableCell align="left" width="25%">{lastName}</TableCell>
-                          <TableCell align="left">
-                            <Label
-                              variant="ghost"
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800, minHeight: 440 }}>
+                <Table>
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={users.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
+                  <TableBody>
+                    {users
+                      .map((row) => {
+                        const {
+                          _id, username, role, firstName, lastName
+                        } = row;
+                        const isItemSelected = selected.indexOf(_id) !== -1;
+                        return (
+                          <TableRow
+                            hover
+                            key={_id}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={isItemSelected}
+                            aria-checked={isItemSelected}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                onChange={(event) => handleClick(event, _id)}
+                              />
+                            </TableCell>
+                            <TableCell align="left" width="25%">{username}</TableCell>
+                            <TableCell align="left" width="25%">{firstName}</TableCell>
+                            <TableCell align="left" width="25%">{lastName}</TableCell>
+                            <TableCell align="left">
+                              <Label
+                                variant="ghost"
                               // eslint-disable-next-line no-nested-ternary
-                              color={role[0] === 'admin' ? 'success' : role[0] === 'contributor' ? 'warning' : 'info'}
-                            >
-                              {sentenceCase(role[0])}
-                            </Label>
-                          </TableCell>
-                          <TableCell align="right">
-                            <UserMoreMenu />
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-                {isUserNotFound && (
+                                color={role[0] === 'admin' ? 'success' : role[0] === 'contributor' ? 'warning' : 'info'}
+                              >
+                                {sentenceCase(role[0])}
+                              </Label>
+                            </TableCell>
+                            <TableCell align="right">
+                              <UserMoreMenu id={_id} pageUpdate={page} onDeleteItem={handleItemDelete} />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                  {isUserNotFound && (
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
@@ -229,23 +257,24 @@ export default function User() {
                       </TableCell>
                     </TableRow>
                   </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-          {!isUserNotFound && (
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            page={page - 1}
-            count={totalPage}
-            rowsPerPage={rowsPerPage}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-          )}
-        </Card>
-      </Container>
-    </Page>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+            {!isUserNotFound && (
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              page={page - 1}
+              count={totalPage}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            )}
+          </Card>
+        </Container>
+      </Page>
+    </>
   );
 }

@@ -55,7 +55,7 @@ const Forbidden = () => (
           variant="subtitle2"
           marginTop="20px"
         >
-          <RouterLink to="/">
+          <RouterLink to="/logout">
             <Button variant="contained" size="large" color="primary">
               Home page
             </Button>

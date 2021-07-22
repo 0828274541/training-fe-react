@@ -11,7 +11,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import { authApi } from '../apis/index';
+import { authApi } from '../apis';
 
 const Login = () => {
   const navigate = useNavigate();

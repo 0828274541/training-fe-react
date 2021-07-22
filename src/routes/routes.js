@@ -23,7 +23,7 @@ import BookAdd from 'src/pages/books/BookAdd';
 
 const routes = (isLoggedIn) => [
   {
-    path: 'admin',
+    path: '/admin',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
     children: [
       { path: '', element: <Dashboard /> },
@@ -33,7 +33,7 @@ const routes = (isLoggedIn) => [
       { path: 'settings', element: <Settings /> },
       { path: 'user/list', element: <UserList /> },
       { path: 'user/add', element: <UserAdd /> },
-      { path: 'user/update', element: <UserUpdate /> },
+      { path: 'user/update/:id', element: <UserUpdate /> },
       { path: 'book/list', element: <BookList /> },
       { path: 'book/add', element: <BookAdd /> },
       { path: 'book/update', element: <BookUpdate /> },

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
+import { useEffect } from 'react';
 import routes from './routes/routes';
 import routesPermission from './routes/routesPermission';
 import GlobalStyles from './components/root/GlobalStyles';
@@ -16,9 +17,12 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isPermission = routesPermission(location.pathname, role);
-  if (!isPermission) {
-    navigate('/403', { replace: true });
-  }
+
+  useEffect(() => {
+    if (!isPermission) {
+      navigate('/403', { replace: true });
+    }
+  }, [isPermission]);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />

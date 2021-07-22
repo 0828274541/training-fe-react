@@ -11,7 +11,8 @@ import {
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const states = [
   {
@@ -24,30 +25,38 @@ const states = [
   }
 ];
 
-const AccountDetails = ({ onAddUser, users }) => {
-  // const [user, setUser] = useState(null);
-  // setUser(users);
-  // console.log(user);
+const userDefault = {
+  username: '',
+  firstName: '',
+  lastName: '',
+  password: '',
+  role: 'normal'
+};
 
+export default function AccountDetails({ onEventSubmit, user }) {
+  const [initUser, setUser] = useState(userDefault);
+  const location = useLocation();
+  const isUpdate = location.pathname.indexOf('update') !== -1;
+  const validatePassword = isUpdate ? '' : Yup.string().min(6).max(255).required('Password is required');
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+    }
+  }, [user]);
   return (
     <>
       <Formik
-        initialValues={{
-          username: '',
-          firstName: '',
-          lastName: '',
-          password: '',
-          role: 'normal',
-        }}
+        enableReinitialize
+        initialValues={initUser}
         validationSchema={Yup.object().shape({
           username: Yup.string().max(255).required('Username is required'),
           firstName: Yup.string().min(6).max(255).required('firstName is required'),
           lastName: Yup.string().min(6).max(255).required('lastName is required'),
-          password: Yup.string().min(6).max(255).required('Password is required'),
+          password: validatePassword,
           role: Yup.string().required('role is required')
         })}
         onSubmit={(values) => {
-          onAddUser(values.username, values.password);
+          onEventSubmit(values.username, values.firstName, values.lastName, values.password, values.role);
         }}
       >
         {({
@@ -87,6 +96,9 @@ const AccountDetails = ({ onAddUser, users }) => {
                       type="username"
                       value={values.username}
                       variant="outlined"
+                      inputProps={{
+                        readOnly: Boolean(isUpdate)
+                      }}
                     />
                   </Grid>
                   <Grid
@@ -192,11 +204,9 @@ const AccountDetails = ({ onAddUser, users }) => {
       </Formik>
     </>
   );
-};
+}
 
 AccountDetails.propTypes = {
-  onAddUser: PropTypes.func,
-  users: PropTypes.object,
+  onEventSubmit: PropTypes.func,
+  user: PropTypes.object,
 };
-
-export default AccountDetails;

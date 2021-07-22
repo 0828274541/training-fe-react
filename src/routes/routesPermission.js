@@ -2,9 +2,9 @@ const authorize = [
   {
     role: 'normal',
     pathname: [
-      '/pages/register',
-      '/pages/login',
-      '/pages/logout',
+      '/register',
+      '/login',
+      '/logout',
       '/404',
       '/403',
       '/'
@@ -13,9 +13,9 @@ const authorize = [
   {
     role: 'contributor',
     pathname: [
-      '/pages/register',
-      '/pages/logout',
-      '/pages/login',
+      '/register',
+      '/logout',
+      '/login',
       '/admin',
       '/admin/account',
       '/admin/customers',
