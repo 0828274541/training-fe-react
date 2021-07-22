@@ -6,16 +6,9 @@ import {
 } from '@material-ui/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import AccountDetails from './AccountDetails';
+import AccountDetails from './Form';
 import { usersApi } from '../../apis';
 
-// const initUser = {
-//   username: 'admin',
-//   firstName: '123',
-//   lastName: '',
-//   password: '',
-//   role: 'normal',
-// };
 const UserUpdate = () => {
   const [user, setUser] = useState(null);
   const { id } = useParams();

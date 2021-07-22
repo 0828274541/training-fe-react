@@ -9,7 +9,7 @@ import {
   Menu, MenuItem, IconButton, ListItemIcon, ListItemText
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import ResponsiveDialog from '../../../pages/Dialog';
+import ResponsiveDialog from '../../Dialog';
 
 // ----------------------------------------------------------------------
 

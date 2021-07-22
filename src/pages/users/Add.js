@@ -5,7 +5,7 @@ import {
   Grid
 } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
-import AccountDetails from './AccountDetails';
+import AccountDetails from './Form';
 import { usersApi } from '../../apis';
 
 // const initUser = {

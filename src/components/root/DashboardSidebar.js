@@ -112,7 +112,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
-          p: 2
+          p: 2,
+          width: '250px'
         }}
       >
         <Avatar

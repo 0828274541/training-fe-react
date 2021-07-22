@@ -15,7 +15,7 @@ import {
   InputAdornment
 } from '@material-ui/core';
 import { useState } from 'react';
-import ResponsiveDialog from '../../../pages/Dialog';
+import ResponsiveDialog from '../../Dialog';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
