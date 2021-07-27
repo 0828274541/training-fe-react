@@ -78,7 +78,7 @@ export default function UserListToolbar({
           <SearchStyle
             value={keyWord}
             onChange={onKeyWord}
-            placeholder="Search user..."
+            placeholder="Search book..."
             color="primary"
             startAdornment={(
               <InputAdornment position="start">

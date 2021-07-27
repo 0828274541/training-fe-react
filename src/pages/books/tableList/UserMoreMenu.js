@@ -46,7 +46,7 @@ export default function UserMoreMenu({ id, onDeleteItem }) {
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
-        <MenuItem component={RouterLink} to={`/admin/user/update/${id}`} sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to={`/admin/book/update/${id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>

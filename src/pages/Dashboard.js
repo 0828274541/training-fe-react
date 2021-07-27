@@ -23,7 +23,9 @@ const Dashboard = () => (
         py: 3
       }}
     >
-      <Container maxWidth={false}>
+      <Container
+        maxWidth={false}
+      >
         <Grid
           container
           spacing={3}

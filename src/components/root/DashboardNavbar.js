@@ -1,11 +1,8 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable no-alert */
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   AppBar,
-  Badge,
   Box,
   Hidden,
   IconButton,
@@ -13,10 +10,8 @@ import {
   Typography
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import MenuItem from '@material-ui/core/MenuItem';
-
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
@@ -25,7 +20,6 @@ import MenuList from '@material-ui/core/MenuList';
 import Logo from './Logo';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
-  const [notifications] = useState([]);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -51,6 +45,9 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
   function handleLogout() {
     navigate('/logout');
   }
+  function handleHome() {
+    navigate('/home');
+  }
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
@@ -63,7 +60,7 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
 
   return (
     <AppBar elevation={0} {...rest}>
-      <Toolbar>
+      <Toolbar sx={{ backgroundColor: '#f3f2f7' }}>
         <RouterLink to="/">
           <Box display="flex">
             <Logo />
@@ -79,18 +76,8 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
         </RouterLink>
         <Box sx={{ flexGrow: 1 }} />
         <Hidden lgDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
           <div>
             <IconButton
-              color="inherit"
               ref={anchorRef}
               aria-controls={open ? 'menu-list-grow' : undefined}
               aria-haspopup="true"
@@ -120,10 +107,8 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => {
                         id="menu-list-grow"
                         onKeyDown={handleListKeyDown}
                       >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                        
+                        <MenuItem onClick={handleHome}>Trang chủ</MenuItem>
+                        <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>

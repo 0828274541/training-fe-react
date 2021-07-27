@@ -6,7 +6,7 @@ import { Paper, Typography } from '@material-ui/core';
 
 export default function SearchNotFound({ searchQuery = '', ...other }) {
   return (
-    <Paper {...other}>
+    <Paper {...other} sx={{ backgroundColor: 'black', color: 'white', width: '100%' }}>
       <Typography gutterBottom align="center" variant="subtitle1">
         Not found
       </Typography>

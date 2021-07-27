@@ -1,11 +1,8 @@
 import {
   BarChart as BarChartIcon,
   Lock as LockIcon,
-  Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon,
   LogOut as LogOutIcon,
   List as ListIcon,
   Bookmark as BookmarkIcon,
@@ -26,88 +23,73 @@ export const items = [
   // User
   {
     icon: UserCheckIcon,
-    title: 'User',
+    title: 'Tài khoản',
     children: [
       {
-        title: 'User List',
+        title: 'Quản lý tài khoản',
         href: '/admin/user/list',
         icon: ListIcon
       },
       {
-        title: 'User Add',
+        title: 'Thêm tài khoản',
         href: '/admin/user/add',
         icon: UserPlusIcon
-      }
-    ]
-  },
-  // Cateogry
-  {
-    icon: TvIcon,
-    title: 'Category',
-    children: [
-      {
-        title: 'Category List',
-        href: '/admin/category/list',
-        icon: TrelloIcon
-      },
-      {
-        title: 'Category Add',
-        href: '/admin/category/add',
-        icon: ToolIcon
       }
     ]
   },
   // Book
   {
     icon: BarChartIcon,
-    title: 'Book',
+    title: 'Sách',
     children: [
       {
-        title: 'Book List',
+        title: 'Quản lý sách',
         href: '/admin/book/list',
         icon: BookmarkIcon
       },
       {
-        title: 'Book Add',
+        title: 'Thêm sách',
         href: '/admin/book/add',
         icon: BookIcon
       }
     ]
   },
+  // Cateogry
   {
-    href: '/admin/customers',
-    icon: UsersIcon,
-    title: 'Customers'
+    icon: TvIcon,
+    title: 'Danh mục',
+    children: [
+      {
+        title: 'Quản lý danh mục',
+        href: '/admin/category/list',
+        icon: TrelloIcon
+      },
+      {
+        title: 'Thêm danh mục',
+        href: '/admin/category/add',
+        icon: ToolIcon
+      }
+    ]
   },
   {
-    href: '/admin/products',
+    href: '/home',
     icon: ShoppingBagIcon,
-    title: 'Products'
-  },
-  {
-    href: '/admin/account',
-    icon: UserIcon,
-    title: 'Account'
-  },
-  {
-    href: '/admin/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
+    title: 'Trang chủ'
   },
   {
     href: '/login',
     icon: LockIcon,
-    title: 'Login'
+    title: 'Đăng nhập'
   },
   {
     href: '/register',
     icon: UserPlusIcon,
-    title: 'Register'
+    title: 'Đăng ký'
   },
   {
     href: '/logout',
     icon: LogOutIcon,
-    title: 'Logout'
+    title: 'Đăng xuất'
   }
 ];
 

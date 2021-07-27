@@ -82,7 +82,7 @@ const orders = [
 ];
 
 const LatestOrders = (props) => (
-  <Card {...props}>
+  <Card {...props} sx={{ backgroundColor: 'table.background' }}>
     <CardHeader title="Latest Orders" />
     <Divider />
     <PerfectScrollbar>

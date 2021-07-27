@@ -8,42 +8,29 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSnackbar } from 'react-simple-snackbar';
 import { useState, useEffect } from 'react';
 import AccountDetails from './Form';
-import { usersApi } from '../../apis';
+import { categoriesApi } from '../../apis';
 import { options } from '../Snackbar';
 
-const UserUpdate = () => {
-  const [user, setUser] = useState(null);
+const CategoryUpdate = () => {
+  const [category, setCategory] = useState(null);
   const [openSnackbar] = useSnackbar(options);
   const { id } = useParams();
   const navigate = useNavigate();
-  const onUpdateUser = async (username, lastName, firstName, password, role) => {
-    console.log(username, lastName, firstName, password, role);
-    const result = await usersApi.updateUser({
-      username,
-      firstName,
-      lastName,
-      password,
-      roleUpdate: role,
-      id
-    });
+  const onUpdateCategory = async (title) => {
+    const result = await categoriesApi.updateCategory({ _id: id, title });
     if (result.data.code === 200) {
       openSnackbar('Cập nhật thành công.!!');
-      navigate('/admin/user/list');
+      navigate('/admin/category/list');
     } else {
       openSnackbar('Cập nhật thất bại.!!');
     }
   };
-  async function getUserById() {
-    const result = await usersApi.getUserById({
-      id
-    });
+  async function getCategoryById() {
+    const result = await categoriesApi.getCategoryById({ id });
     if (result.data.code === 200) {
-      setUser({
-        username: result.data.users.username,
-        firstName: result.data.users.firstName,
-        lastName: result.data.users.lastName,
-        password: '',
-        role: result.data.users.role[0],
+      console.log(result.data.category.title);
+      setCategory({
+        title: result.data.category.title,
       });
     } else {
       openSnackbar('Lỗi hoặc ID ko tồn tại.!!');
@@ -51,7 +38,7 @@ const UserUpdate = () => {
   }
 
   useEffect(() => {
-    getUserById();
+    getCategoryById();
   }, []);
   return (
     <>
@@ -78,7 +65,7 @@ const UserUpdate = () => {
               md={8}
               xs={8}
             >
-              <AccountDetails onEventSubmit={onUpdateUser} user={user} />
+              <AccountDetails onEventSubmit={onUpdateCategory} category={category} />
             </Grid>
           </Grid>
         </Container>
@@ -87,4 +74,4 @@ const UserUpdate = () => {
   );
 };
 
-export default UserUpdate;
+export default CategoryUpdate;

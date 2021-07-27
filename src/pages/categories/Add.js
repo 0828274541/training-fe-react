@@ -4,26 +4,20 @@ import {
   Container,
   Grid
 } from '@material-ui/core';
-import { useSnackbar } from 'react-simple-snackbar';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'react-simple-snackbar';
 import AccountDetails from './Form';
-import { usersApi } from '../../apis';
+import { categoriesApi } from '../../apis/index';
 import { options } from '../Snackbar';
 
-const UserAdd = () => {
+const CategoryAdd = () => {
   const navigate = useNavigate();
   const [openSnackbar] = useSnackbar(options);
-  const onAddUser = async (firstName, lastName, username, password, role) => {
-    const result = await usersApi.addUser({
-      firstName,
-      lastName,
-      username,
-      password,
-      roleCreate: role
-    });
+  const onAddCategory = async (title) => {
+    const result = await categoriesApi.addCategory({ title });
     if (result.data.code === 200) {
       openSnackbar('Thêm danh mục thành công.!!');
-      navigate('/admin/user/list');
+      navigate('/admin/category/list');
     } else {
       openSnackbar('Thêm thất bại.!!');
     }
@@ -53,7 +47,7 @@ const UserAdd = () => {
               md={8}
               xs={8}
             >
-              <AccountDetails onEventSubmit={onAddUser} />
+              <AccountDetails onEventSubmit={onAddCategory} />
             </Grid>
           </Grid>
         </Container>
@@ -62,4 +56,4 @@ const UserAdd = () => {
   );
 };
 
-export default UserAdd;
+export default CategoryAdd;

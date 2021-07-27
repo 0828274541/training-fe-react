@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
 import { useEffect } from 'react';
+import SnackbarProvider from 'react-simple-snackbar';
 import routes from './routes/routes';
 import routesPermission from './routes/routesPermission';
 import GlobalStyles from './components/root/GlobalStyles';
@@ -25,8 +26,10 @@ const App = () => {
   }, [isPermission]);
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      {routing}
+      <SnackbarProvider>
+        <GlobalStyles />
+        {routing}
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };

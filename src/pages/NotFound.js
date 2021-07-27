@@ -55,7 +55,7 @@ const NotFound = () => (
           variant="subtitle2"
           marginTop="20px"
         >
-          <RouterLink to="/">
+          <RouterLink to="/home">
             <Button variant="contained" size="large" color="primary">
               Home page
             </Button>

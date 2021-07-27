@@ -4,30 +4,34 @@ import {
   Container,
   Grid
 } from '@material-ui/core';
-import { useSnackbar } from 'react-simple-snackbar';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'react-simple-snackbar';
 import AccountDetails from './Form';
-import { usersApi } from '../../apis';
+import { booksApi } from '../../apis';
 import { options } from '../Snackbar';
 
-const UserAdd = () => {
+const BookAdd = () => {
   const navigate = useNavigate();
   const [openSnackbar] = useSnackbar(options);
-  const onAddUser = async (firstName, lastName, username, password, role) => {
-    const result = await usersApi.addUser({
-      firstName,
-      lastName,
-      username,
-      password,
-      roleCreate: role
-    });
+  const onAddBook = async (title, description, author, category, cover) => {
+    const formData = new FormData();
+    for (let i = 0; i < cover.length; i++) {
+      formData.append('cover', cover[i]);
+    }
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('author', author);
+    formData.append('category', category);
+    const result = await booksApi.addBook(formData);
+
     if (result.data.code === 200) {
-      openSnackbar('Thêm danh mục thành công.!!');
-      navigate('/admin/user/list');
+      openSnackbar('Thêm sách thành công.!!');
+      navigate('/admin/book/list');
     } else {
       openSnackbar('Thêm thất bại.!!');
     }
   };
+
   return (
     <>
       <Helmet>
@@ -53,7 +57,7 @@ const UserAdd = () => {
               md={8}
               xs={8}
             >
-              <AccountDetails onEventSubmit={onAddUser} />
+              <AccountDetails onEventSubmit={onAddBook} />
             </Grid>
           </Grid>
         </Container>
@@ -62,4 +66,4 @@ const UserAdd = () => {
   );
 };
 
-export default UserAdd;
+export default BookAdd;

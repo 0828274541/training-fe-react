@@ -11,7 +11,7 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 
 const TotalCustomers = (props) => (
-  <Card {...props}>
+  <Card {...props} sx={{ height: '100%', backgroundColor: 'table.background' }}>
     <CardContent>
       <Grid
         container
@@ -20,7 +20,7 @@ const TotalCustomers = (props) => (
       >
         <Grid item>
           <Typography
-            color="textSecondary"
+            color="text.white"
             gutterBottom
             variant="h6"
           >
@@ -63,7 +63,7 @@ const TotalCustomers = (props) => (
           16%
         </Typography>
         <Typography
-          color="textSecondary"
+          color="text.white"
           variant="caption"
         >
           Since last month

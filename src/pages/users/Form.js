@@ -70,9 +70,8 @@ export default function AccountDetails({ onEventSubmit, user }) {
             autoComplete="off"
             onSubmit={handleSubmit}
           >
-            <Card>
+            <Card style={{ backgroundColor: 'white', color: 'black' }}>
               <CardHeader
-                subheader="The information can be edited"
                 title="Profile"
               />
               <Divider />
@@ -166,7 +165,9 @@ export default function AccountDetails({ onEventSubmit, user }) {
                       onChange={handleChange}
                       type="role"
                       select
-                      SelectProps={{ native: true }}
+                      SelectProps={{
+                        native: true
+                      }}
                       value={values.role}
                       variant="outlined"
                     >
@@ -174,9 +175,8 @@ export default function AccountDetails({ onEventSubmit, user }) {
                         <option
                           key={option.value}
                           value={option.value}
-                        >
-                          {option.label}
-                        </option>
+                          label={option.label}
+                        />
                       ))}
                     </TextField>
                   </Grid>
@@ -191,7 +191,7 @@ export default function AccountDetails({ onEventSubmit, user }) {
                 }}
               >
                 <Button
-                  color="primary"
+                  sx={{ color: 'black', backgroundColor: '#f3f2f7' }}
                   variant="contained"
                   type="submit"
                 >

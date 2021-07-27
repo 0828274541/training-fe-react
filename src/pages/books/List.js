@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
 import { useState, useEffect, useCallback } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { debounce } from 'lodash';
@@ -9,6 +8,7 @@ import {
   Card,
   Table,
   Button,
+  Stack,
   Checkbox,
   TableRow,
   TableBody,
@@ -19,38 +19,39 @@ import {
 } from '@material-ui/core';
 // components
 import { useSnackbar } from 'react-simple-snackbar';
-import Label from '../../components/Label';
 import Page from '../../components/Page';
 import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from './tableList';
-
+import ImageList from './ImageList';
 //
-import { usersApi } from '../../apis/index';
+import { booksApi } from '../../apis/index';
 import { options } from '../Snackbar';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'username', label: 'Username', alignRight: false },
-  { id: 'firstName', label: 'Firstname', alignRight: false },
-  { id: 'lastName', label: 'Lastname', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
+  { id: 'title', label: 'Title', alignRight: false },
+  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'author', label: 'Author', alignRight: false },
+  { id: 'owner', label: 'Owner', alignRight: false },
+  { id: 'category', label: 'Category', alignRight: false },
+  { id: 'cover', label: 'Cover', alignRight: false },
   { id: '' }
 ];
 
-export default function User() {
+export default function Book() {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState('-');
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('_id');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [totalPage, setTotalPage] = useState(0);
-  const [users, setUsers] = useState([]);
+  const [books, setBooks] = useState([]);
   const [keyWord, setKeyword] = useState('');
   const [loadpage, setLoadPage] = useState(true);
   const [openSnackbar] = useSnackbar(options);
-  async function getUser() {
-    const result = await usersApi.paging({
+  async function getBook() {
+    const result = await booksApi.paging({
       search: keyWord,
       page,
       limit: rowsPerPage,
@@ -59,43 +60,43 @@ export default function User() {
     });
     if (result.data.code === 200) {
       const {
-        docs: userList, limit, page: pageReturn, totalDocs
-      } = result.data.users;
-      if (userList.length) {
+        docs: bookList, limit, page: pageReturn, totalDocs
+      } = result.data.books;
+      if (bookList.length) {
         setPage(pageReturn);
         setRowsPerPage(limit);
         setTotalPage(totalDocs);
-        setUsers(userList);
+        setBooks(bookList);
       } else {
-        setUsers([]);
+        setBooks([]);
         setTotalPage(totalDocs);
       }
     }
   }
   async function handleListDelete() {
-    const result = await usersApi.deleteUser({
-      userIds: selected,
+    const result = await booksApi.deleteBook({
+      bookIds: selected,
     });
     if (result.data.code === 200) {
       openSnackbar('Xóa thành công.');
-      getUser();
+      getBook();
       setSelected([]);
     }
   }
 
   async function handleItemDelete(id) {
-    const result = await usersApi.deleteUser({
-      userIds: [`${id}`],
+    const result = await booksApi.deleteBook({
+      bookIds: [`${id}`],
     });
     if (result.data.code === 200) {
       openSnackbar('Xóa thành công.');
-      getUser();
+      getBook();
       setSelected([]);
     }
   }
 
   useEffect(() => {
-    getUser();
+    getBook();
   }, [loadpage]);
 
   const debounceLoadData = useCallback(debounce((isloadpage) => {
@@ -111,10 +112,10 @@ export default function User() {
     debounceLoadData(!loadpage);
   };
 
-  const isUserNotFound = users.length === 0;
+  const isUserNotFound = books.length === 0;
 
   const handleRequestSort = (event, property) => {
-    if (property === 'role' || isUserNotFound) {
+    if (['cover', 'category', 'owner'].includes(property) || isUserNotFound) {
       return;
     }
     const isAsc = orderBy === property && order === '';
@@ -129,7 +130,7 @@ export default function User() {
       return;
     }
     if (event.target.checked) {
-      const newSelecteds = users.map((row) => {
+      const newSelecteds = books.map((row) => {
         const {
           _id: id,
         } = row;
@@ -172,17 +173,19 @@ export default function User() {
   };
   return (
     <>
-      <Page title="User | Minimal-UI">
+      <Page title="Book | Minimal-UI">
         <Container sx={{ marginTop: '20px' }}>
-          <Button
-            sx={{ color: 'black', marginBottom: '20px', backgroundColor: '#f3f2f7' }}
-            variant="contained"
-            component={RouterLink}
-            to="/admin/user/add"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New User
-          </Button>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
+            <Button
+              sx={{ color: 'black', backgroundColor: '#f3f2f7' }}
+              variant="contained"
+              component={RouterLink}
+              to="/admin/book/add"
+              startIcon={<Icon icon={plusFill} />}
+            >
+              New Book
+            </Button>
+          </Stack>
 
           <Card style={{ backgroundColor: 'white', color: 'black', }}>
             <UserListToolbar
@@ -199,16 +202,16 @@ export default function User() {
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={users.length}
+                    rowCount={books.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
                   />
                   <TableBody>
-                    {users
+                    {books
                       .map((row) => {
                         const {
-                          _id, username, role, firstName, lastName
+                          _id, title, description, author, owner, category, cover
                         } = row;
                         const isItemSelected = selected.indexOf(_id) !== -1;
                         return (
@@ -226,17 +229,13 @@ export default function User() {
                                 onChange={(event) => handleClick(event, _id)}
                               />
                             </TableCell>
-                            <TableCell align="left" width="25%">{username}</TableCell>
-                            <TableCell align="left" width="25%">{firstName}</TableCell>
-                            <TableCell align="left" width="25%">{lastName}</TableCell>
-                            <TableCell align="left">
-                              <Label
-                                variant="ghost"
-                              // eslint-disable-next-line no-nested-ternary
-                                color={role[0] === 'admin' ? 'success' : role[0] === 'contributor' ? 'warning' : 'info'}
-                              >
-                                {sentenceCase(role[0])}
-                              </Label>
+                            <TableCell align="left" width="20%">{title}</TableCell>
+                            <TableCell align="left" width="20%">{description}</TableCell>
+                            <TableCell align="left" width="20%">{author}</TableCell>
+                            <TableCell align="left" width="20%">{owner ? owner.username : 'USER DELETED'}</TableCell>
+                            <TableCell align="left" width="20%">{category ? category.title : 'CATEGORY IS NULL'}</TableCell>
+                            <TableCell align="left" width="20%">
+                              <ImageList cover={cover} />
                             </TableCell>
                             <TableCell align="right">
                               <UserMoreMenu id={_id} pageUpdate={page} onDeleteItem={handleItemDelete} />

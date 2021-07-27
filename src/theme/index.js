@@ -5,16 +5,21 @@ import typography from './typography';
 const theme = createMuiTheme({
   palette: {
     background: {
-      default: '#F4F6F8',
-      paper: colors.common.white
+      default: '#424242',
+      paper: colors.common.white // define color item select box
     },
     primary: {
-      contrastText: '#ffffff',
-      main: '#5664d2'
+      contrastText: '#424242',
+      main: '#424242' // mau label
     },
     text: {
-      primary: '#172b4d',
-      secondary: '#6b778c'
+      primary: '#424242',
+      secondary: '#424242',
+      black: '#02060c',
+      white: '#ffffff'
+    },
+    table: {
+      background: '#131212'
     }
   },
   shadows,

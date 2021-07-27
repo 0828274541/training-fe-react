@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router';
 import { Icon } from '@iconify/react';
 import searchFill from '@iconify/icons-eva/search-fill';
 import trash2Fill from '@iconify/icons-eva/trash-2-fill';
@@ -57,6 +58,8 @@ export default function UserListToolbar({
   function openDialog() {
     setDiaLog(true);
   }
+  const location = useLocation();
+  const isCatetoryPage = location.pathname.indexOf('category') !== -1;
   return (
     <>
       {dialog && <ResponsiveDialog onAction={onDeleteList} closeDialog={setDiaLog} />}
@@ -75,11 +78,12 @@ export default function UserListToolbar({
             selected
           </Typography>
         ) : (
+          !isCatetoryPage && (
           <SearchStyle
             value={keyWord}
             onChange={onKeyWord}
             placeholder="Search user..."
-            color="primary"
+            color="secondary"
             startAdornment={(
               <InputAdornment position="start">
                 <Box
@@ -90,6 +94,7 @@ export default function UserListToolbar({
               </InputAdornment>
           )}
           />
+          )
         )}
 
         {numSelected > 0 ? (

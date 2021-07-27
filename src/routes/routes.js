@@ -14,12 +14,15 @@ import Settings from 'src/pages/Settings';
 import UserList from 'src/pages/users/List';
 import UserUpdate from 'src/pages/users/Update';
 import UserAdd from 'src/pages/users/Add';
-import CategoryList from 'src/pages/categories/CategoryList';
-import CategoryUpdate from 'src/pages/categories/CategoryUpdate';
-import CategoryAdd from 'src/pages/categories/CategoryAdd';
-import BookList from 'src/pages/books/BookList';
-import BookUpdate from 'src/pages/books/BookUpdate';
-import BookAdd from 'src/pages/books/BookAdd';
+import CategoryList from 'src/pages/categories/List';
+import CategoryUpdate from 'src/pages/categories/Update';
+import CategoryAdd from 'src/pages/categories/Add';
+import BookList from 'src/pages/books/List';
+import BookUpdate from 'src/pages/books/Update';
+import BookAdd from 'src/pages/books/Add';
+import Home from 'src/pages/Home';
+import Search from 'src/pages/Search';
+import Detail from 'src/pages/BookDetail';
 
 const routes = (isLoggedIn) => [
   {
@@ -36,10 +39,10 @@ const routes = (isLoggedIn) => [
       { path: 'user/update/:id', element: <UserUpdate /> },
       { path: 'book/list', element: <BookList /> },
       { path: 'book/add', element: <BookAdd /> },
-      { path: 'book/update', element: <BookUpdate /> },
+      { path: 'book/update/:id', element: <BookUpdate /> },
       { path: 'category/list', element: <CategoryList /> },
       { path: 'category/add', element: <CategoryAdd /> },
-      { path: 'category/update', element: <CategoryUpdate /> },
+      { path: 'category/update/:id', element: <CategoryUpdate /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
@@ -50,6 +53,9 @@ const routes = (isLoggedIn) => [
       { path: 'logout', element: <Logout /> },
       { path: 'login', element: !isLoggedIn ? <Login /> : <Navigate to="/admin" /> },
       { path: 'register', element: !isLoggedIn ? <Register /> : <Navigate to="/admin" /> },
+      { path: 'home', element: <Home /> },
+      { path: 'search/:keyWord', element: <Search /> },
+      { path: 'detail/:detailId', element: <Detail /> },
       { path: '404', element: <NotFound /> },
       { path: '403', element: <Forbidden /> },
       { path: '', element: <Navigate to="/admin" /> },

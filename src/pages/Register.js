@@ -12,10 +12,24 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import { useSnackbar } from 'react-simple-snackbar';
+import { authApi } from '../apis';
+import { options } from './Snackbar';
 
 const Register = () => {
   const navigate = useNavigate();
-
+  const [openSnackbar] = useSnackbar(options);
+  const register = async (username, password, firstName, lastName) => {
+    const res = await authApi.register({
+      firstName, lastName, username, password
+    });
+    if (res.data.code === 200) {
+      openSnackbar('Đăng ky thành công.!!');
+      navigate('/login', { replace: true });
+    } else {
+      openSnackbar('Đăng ky ko thành công. Vui long thu lai sau.!!');
+    }
+  };
   return (
     <>
       <Helmet>
@@ -23,7 +37,6 @@ const Register = () => {
       </Helmet>
       <Box
         sx={{
-          backgroundColor: 'background.default',
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
@@ -33,7 +46,7 @@ const Register = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: '',
+              username: '',
               firstName: '',
               lastName: '',
               password: '',
@@ -41,15 +54,15 @@ const Register = () => {
             }}
             validationSchema={
               Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                firstName: Yup.string().max(255).required('First name is required'),
-                lastName: Yup.string().max(255).required('Last name is required'),
-                password: Yup.string().max(255).required('password is required'),
+                username: Yup.string().min(6).required('username is required'),
+                firstName: Yup.string().min(6).required('First name is required'),
+                lastName: Yup.string().min(6).required('Last name is required'),
+                password: Yup.string().min(6).required('password is required'),
                 policy: Yup.boolean().oneOf([true], 'This field must be checked')
               })
             }
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+            onSubmit={(values) => {
+              register(values.username, values.password, values.firstName, values.lastName);
             }}
           >
             {({
@@ -74,7 +87,7 @@ const Register = () => {
                     gutterBottom
                     variant="body2"
                   >
-                    Use your email to create new account
+                    Use your username to create new account
                   </Typography>
                 </Box>
                 <TextField
@@ -102,16 +115,16 @@ const Register = () => {
                   variant="outlined"
                 />
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.username && errors.username)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
+                  helperText={touched.username && errors.username}
+                  label="username Address"
                   margin="normal"
-                  name="email"
+                  name="username"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="username"
+                  value={values.username}
                   variant="outlined"
                 />
                 <TextField
@@ -146,7 +159,7 @@ const Register = () => {
                     I have read the
                     {' '}
                     <Link
-                      color="primary"
+                      color="black"
                       component={RouterLink}
                       to="#"
                       underline="always"
@@ -163,7 +176,7 @@ const Register = () => {
                 )}
                 <Box sx={{ py: 2 }}>
                   <Button
-                    color="primary"
+                    color="secondary"
                     disabled={isSubmitting}
                     fullWidth
                     size="large"
@@ -174,7 +187,7 @@ const Register = () => {
                   </Button>
                 </Box>
                 <Typography
-                  color="textSecondary"
+                  color="secondary"
                   variant="body1"
                 >
                   Have an account?
@@ -183,6 +196,7 @@ const Register = () => {
                     component={RouterLink}
                     to="/login"
                     variant="h6"
+                    color="black"
                   >
                     Sign in
                   </Link>

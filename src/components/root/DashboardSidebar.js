@@ -55,12 +55,12 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           disableGutters
           sx={{
             display: 'flex',
-            py: 0
+            py: 0,
           }}
         >
           <Button
             sx={{
-              color: 'text.secondary',
+              color: 'black',
               fontWeight: 'medium',
               justifyContent: 'flex-start',
               letterSpacing: 0,
@@ -115,6 +115,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           p: 2,
           width: '250px'
         }}
+        style={{ backgroundImage: 'url(/static/images/avatars/unnamed.png)', backgroundPosition: 'bottom' }}
       >
         <Avatar
           component={RouterLink}
@@ -127,13 +128,13 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           to="/admin/account"
         />
         <Typography
-          color="textPrimary"
+          color="white"
           variant="h5"
         >
           {user.name}
         </Typography>
         <Typography
-          color="textSecondary"
+          color="white"
           variant="body2"
         >
           {user.jobTitle}
@@ -169,7 +170,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           variant="temporary"
           PaperProps={{
             sx: {
-              width: 256
+              width: 256,
+              backgroundColor: '#f3f2f7'
             }
           }}
         >
@@ -185,7 +187,8 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
             sx: {
               width: 256,
               top: 64,
-              height: 'calc(100% - 64px)'
+              height: 'calc(100% - 64px)',
+              backgroundColor: '#f3f2f7',
             }
           }}
         >

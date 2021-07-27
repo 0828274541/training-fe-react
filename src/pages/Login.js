@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { useSnackbar } from 'react-simple-snackbar';
 import {
   Box,
   Button,
@@ -12,12 +13,13 @@ import {
   Typography
 } from '@material-ui/core';
 import { authApi } from '../apis';
+import { options } from './Snackbar';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [openSnackbar] = useSnackbar(options);
   const dispatch = useDispatch();
   const login = async (username, password) => {
-    console.log(username, password);
     const res = await authApi.login({ username, password });
     if (res.data.code === 200) {
       const data = {
@@ -26,10 +28,10 @@ const Login = () => {
         token: res.data.token
       };
       dispatch({ type: 'SET_LOGIN', payload: data });
-      navigate('/admin', { replace: true });
+      openSnackbar('Đăng nhập thành công.!!');
+      navigate('/home', { replace: true });
     } else {
-      // eslint-disable-next-line no-alert
-      alert('sai username or password');
+      openSnackbar('Sai username or password.!!');
     }
   };
   return (
@@ -39,7 +41,6 @@ const Login = () => {
       </Helmet>
       <Box
         sx={{
-          backgroundColor: 'background.default',
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
@@ -99,6 +100,7 @@ const Login = () => {
                   type="username"
                   value={values.username}
                   variant="outlined"
+                  color="secondary"
                 />
                 <TextField
                   error={Boolean(touched.password && errors.password)}
@@ -112,10 +114,11 @@ const Login = () => {
                   type="password"
                   value={values.password}
                   variant="outlined"
+                  color="secondary"
                 />
                 <Box sx={{ py: 2 }}>
                   <Button
-                    color="primary"
+                    color="secondary"
                     fullWidth
                     size="large"
                     type="submit"
