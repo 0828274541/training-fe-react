@@ -8,7 +8,7 @@ export default function SearchNotFound({ searchQuery = '', ...other }) {
   return (
     <Paper {...other} sx={{ backgroundColor: 'black', color: 'white', width: '100%' }}>
       <Typography gutterBottom align="center" variant="subtitle1">
-        Not found
+        Not foundd
       </Typography>
       <Typography variant="body2" align="center">
         No results found for &nbsp;

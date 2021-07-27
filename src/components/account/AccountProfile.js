@@ -41,7 +41,7 @@ const AccountProfile = (props) => (
           gutterBottom
           variant="h3"
         >
-          {user.name}
+          {user.name}aa
         </Typography>
         <Typography
           color="textSecondary"
