@@ -2,13 +2,11 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/components/root/DashboardLayout';
 import MainLayout from 'src/components/root/MainLayout';
 import Account from 'src/pages/Account';
-import CustomerList from 'src/pages/CustomerList';
 import Dashboard from 'src/pages/Dashboard';
 import Login from 'src/pages/Login';
 import Logout from 'src/pages/Logout';
 import NotFound from 'src/pages/NotFound';
 import Forbidden from 'src/pages/Forbidden';
-import ProductList from 'src/pages/ProductList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
 import UserList from 'src/pages/users/List';
@@ -31,8 +29,6 @@ const routes = (isLoggedIn) => [
     children: [
       { path: '', element: <Dashboard /> },
       { path: 'account', element: <Account /> },
-      { path: 'customers', element: <CustomerList /> },
-      { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
       { path: 'user/list', element: <UserList /> },
       { path: 'user/add', element: <UserAdd /> },
